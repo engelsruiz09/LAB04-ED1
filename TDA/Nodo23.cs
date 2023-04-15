@@ -1,12 +1,31 @@
 ﻿namespace TDA
 {
-    public class Nodo23<T> where T : IComparable<T>
+    public class Nodo23<T> 
     {
-        public Nodo23<T> Lhijo { get; set; }//dato izquierdo
-        public Nodo23<T> Chijo { get; set; }//dato del medio
-        public Nodo23<T> Rhijo { get; set; }//dato de la derecha
-        public T VIzq { get; set; } //valor izquierdp
-        public T VDer { get; set; }//valor derecho
+        //Valores en un nodo, (valor 1 > valor 2 al insertar)
+        public T Valor1 { get; set; }
+        public T Valor2 { get; set; }
+        public bool ocupado { get; set; }
+
+        public Nodo23<T> NodoIzq;
+        public Nodo23<T> NodoCen;
+        public Nodo23<T> NodoDer;
+        public Nodo23()
+        {
+            NodoIzq = null;
+            NodoCen = null;
+            NodoDer = null;
+            ocupado = false;
+        }
+        //Constructor para dar un valor al valor menor en el nodo
+        public Nodo23(T ValorM)
+        {
+            NodoIzq = null;
+            NodoCen = null;
+            NodoDer = null;
+            ocupado = false;
+            Valor2 = ValorM;
+        }
 
 
     }
