@@ -10,25 +10,31 @@
 <body>
     <main>
         <header>
-            <div class="px-3 py-2 bg-dark text-white">
+            <div class="px-3 py-2 bg-dark text-light">
                 <div class="container">
                     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                        <a asp-controller="Home" asp-action="Index" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                        <a asp-controller="Home" asp-action="Index" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-dark text-decoration-none">
+                            <img src="~/imgs/logo-w-4.png" class="w-50 py-3" />
                         </a>
                         <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
                             <li>
-                                <a class="nav-link text-secondary" asp-controller="Vehiculos" asp-action="Menu">
+                                <a class="nav-link text-dark" asp-controller="Vehiculos" asp-action="Menu">
                                     Menú
                                 </a>
                             </li>
                             <li>
-                                <a asp-controller="Vehiculos" asp-action="Index" class="nav-link text-white">
-                                    Vehículos
+                                <a asp-controller="Vehiculos" asp-action="Index" class="nav-link text-light">
+                                    Vehiculos 
                                 </a>
                             </li>
                             <li>
-                                <a asp-controller="Vehiculos" asp-action="principal" class="nav-link text-white">
-                                    Carga por .csv
+                                <a asp-controller="Vehiculos" asp-action="Create" class="nav-link text-light">
+                                    Carga Manual
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-controller="Vehiculos" asp-action="CargarArchivo" class="nav-link text-light">
+                                    Carga por CSV
                                 </a>
                             </li>
                         </ul>
@@ -39,7 +45,7 @@
 
         <div class="b-example-divider"></div>
     </main>
-    <div class="container">
+    <div class="">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

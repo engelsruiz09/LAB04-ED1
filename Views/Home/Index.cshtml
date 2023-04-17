@@ -1,11 +1,95 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Inicio";
 }
 
-<div class="banner">
-    <div class="container">
-        <div class="col-md-12 text-center contenido">
-            <h1 class="black">LABORATORIO NO. 5 ARBOL 2-3</h1>
+<section class="banner text-center bg-light">
+    <div class="fondo">
+        <h1 class="display-1 text-light texto">"Pa Donde Joven?" </h1>
+        <h3 class="display-5 text-light texto-2"> Empieza el viaje ahora &rarr;</h3>
+    </div>
+
+</section>
+<section class="main mb-5">
+    <div class="text-center py-5 mx-0 px-0 glass">
+        <h1 class="display-3 mb-3"> ¿Estas Dispuesto a Pasar al Siguiente Nivel?</h1>
+        <blockquote class="blockquote">
+            Ahora con el servicio de Uber en Guatemala se puede generar un ingreso extra, en el cual tu puedes ser tu propio
+            jefe, establecer tus horarios y todo desde la comodidad de tu telefono, animate a ser parte de esta gran familia que
+            poco a poco se estableciendo en más lugares del mundo, recuerda que nada es imposible si sabes con quien aliarte.
+        </blockquote>
+    </div>
+</section>
+<div class="container-fluid">
+    <div class="row row-cols-3 row-cols-md-3 row-cols-sm-1 g-4">
+        <div class="col text-center">
+            <div class="card h-75">
+                <img src="~/imgs/card-1.png" class="card-img-top " alt="imagen-proyecto">
+                <div class="card-body">
+                    <h5 class="card-title">Buscar Nodo</h5>
+                    <p class="card-text">Aqui puedes entrar a la lista de Nodos para buscar informacion</p>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-primary" asp-controller="Vehiculos" asp-action="Index" target="_blank" rel="noopener noreferrer">Visitar</a>
+                </div>
+            </div>
         </div>
+        <div class="col text-center">
+            <div class="card h-75">
+                <img src="~/imgs/card-2.jpg" class="card-img-top " alt="imagen-proyecto">
+                <div class="card-body">
+                    <h5 class="card-title">Eliminar Nodo</h5>
+                    <p class="card-text">Aqui puedes entrar a la lista de Nodos para eliminar informacion</p>
+                </div>
+                <div class="card-footer ">
+                    <a class="btn btn-primary" asp-controller="Vehiculos" asp-action="Delete" target="_blank" rel="noopener noreferrer">Visitar</a>
+                </div>
+            </div>
+        </div>
+        <div class="col text-center">
+            <div class="card h-75">
+                <img src="~/imgs/card-3.jpg" class="card-img-top " alt="imagen-proyecto">
+                <div class="card-body">
+                    <h5 class="card-title">Actualizar Nodo</h5>
+                    <p class="card-text">Aqui puedes entrar a la lista de Nodos para actualizar informacion</p>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-primary" asp-controller="Vehiculos" asp-action="Update" target="_blank" rel="noopener noreferrer">Visitar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr />
+<div class="d-flex justify-content-center">
+    <div class="mapouter mx-5">
+        <div class="gmap_canvas">
+            <iframe width="629" height="369" id="gmap_canvas" src="https://maps.google.com/maps?q=igss zona 9&t=&z=16&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+            <a href="https://2yu.co">2yu</a>
+            <br>
+            <style>
+                .mapouter {
+                    position: relative;
+                    text-align: right;
+                    height: 369px;
+                    width: 629px;
+                }
+            </style><a href="https://embedgooglemap.2yu.co">html embed google map</a>
+            <style>
+                .gmap_canvas {
+                    overflow: hidden;
+                    background: none !important;
+                    height: 369px;
+                    width: 629px;
+                }
+            </style>
+        </div>
+    </div>
+    <div class="text-start align-content-center">
+        <h3 class="display-5">Información de Contacto</h3>
+        <P class="blockquote">
+            Encuentranos en 9a calle 7-55 zona 9 <br />
+            Horarios de Atención: 24 horas de lunes a domingo <br />
+            Llama al PBX: 2506-1300 <br />
+        </P>
     </div>
 </div>

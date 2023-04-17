@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "CargarArchivo";
+}
+
+<h3>Carga por CSV de Vehiculos</h3>
+
+<div class="text-center">
+    <h1 class="display-3">Vehiculos</h1>
+</div>
+<hr />
+
+<form asp-action="CargarArchivo2" method="post" enctype="multipart/form-data" class="form-inline mb-3">
+    <input class="form-control" type="file" name="File"/>
+    <input class="btn btn-outline-primary" type="submit" value="Importar" />
+</form>

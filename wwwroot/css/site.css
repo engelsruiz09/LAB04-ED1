@@ -16,3 +16,46 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.box{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    height:100vh;
+    background:url();
+    background-position:center;
+    background-repeat:no-repeat;
+    background-size:cover;
+
+}
+.glass {
+    /*ajustar size*/
+    backdrop-filter: blur(10px);
+   /* border-radius: 30px;*/
+    background: linear-gradient(100deg,rgba(0,0,0,.2), rgba(0,0,0,.2));
+    box-shadow: 0 10px 26px 0 rgba(0,0,0,.50);
+}
+.fondo {
+    height:1080px;
+    background-image: url(../imgs/uber-bg-3.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.texto{
+    position:relative;
+    z-index:auto;
+    top:35%;
+    right:26%;
+}
+.texto-2 {
+    position: relative;
+    z-index: auto;
+    top: 60%;
+    right: 26%;
+}
+
+.logo{
+    width:10%;
+}
