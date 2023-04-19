@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\LAB04-ED1.bundle.scp.css"
     },
     {
+      "Id": "E:\\Carlos\\source\\repos\\Estructura de Datos I\\LAB04-ED1\\wwwroot\\Uploads\\LAB.csv",
+      "PackagePath": "staticwebassets\\Uploads\\LAB.csv"
+    },
+    {
       "Id": "E:\\Carlos\\source\\repos\\Estructura de Datos I\\LAB04-ED1\\wwwroot\\Uploads\\LAB5PRUEBA.csv",
       "PackagePath": "staticwebassets\\Uploads\\LAB5PRUEBA.csv"
     },

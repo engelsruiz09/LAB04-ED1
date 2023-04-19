@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "VQBHl01/znXcLcfBMs3gK12aqV5RomKcJecKls4wh1w=",
+  "Hash": "yGJ2+5b8XLMQITVyFvZ63HEwM1V5OoNFS+cadw3LpUE=",
   "Source": "LAB04-ED1",
   "BasePath": "_content/LAB04-ED1",
   "Mode": "Default",
@@ -1171,6 +1171,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Identity": "E:\\Carlos\\source\\repos\\Estructura de Datos I\\LAB04-ED1\\wwwroot\\Uploads\\LAB.csv",
+      "SourceId": "LAB04-ED1",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\Carlos\\source\\repos\\Estructura de Datos I\\LAB04-ED1\\wwwroot\\",
+      "BasePath": "_content/LAB04-ED1",
+      "RelativePath": "Uploads/LAB.csv",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Uploads\\LAB.csv"
     },
     {
       "Identity": "E:\\Carlos\\source\\repos\\Estructura de Datos I\\LAB04-ED1\\wwwroot\\Uploads\\LAB5PRUEBA.csv",

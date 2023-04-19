@@ -296,33 +296,26 @@ namespace TDA
         }
         public List<T> ObtenerValoresEnLista()
         {
-            List<T> listaValores = new List<T>(); // Lista para almacenar los valores del árbol
-            ObtenerValoresEnListaRecursivo(raiz, listaValores); // Llamada al método recursivo para obtener los valores
-            return listaValores; // Devuelve la lista de valores
+            ListaDatos.Clear(); // Limpiamos la lista antes de obtener los valores
+            ObtenerValoresEnLista(raiz); // Llamamos al método recursivo para obtener los valores
+            return ListaDatos;
         }
 
-        private void ObtenerValoresEnListaRecursivo(Nodo23<T> nodo, List<T> listaValores)
+        private void ObtenerValoresEnLista(Nodo23<T> nodo)
         {
             if (nodo != null)
             {
-                // Recorre el nodo izquierdo
-                ObtenerValoresEnListaRecursivo(nodo.NodoIzq, listaValores);
-
-                // Agrega el valor del nodo a la lista
-                if (nodo.ocupado) // Si el nodo está ocupado (tiene un valor)
+                // Agregamos los valores del nodo a la lista
+                ListaDatos.Add(nodo.Valor1);
+                if (nodo.Valor2 != null)
                 {
-                    listaValores.Add(nodo.Valor1); // Agrega el primer valor
-                    if (nodo.Valor2 != null) // Si hay un segundo valor en el nodo
-                    {
-                        listaValores.Add(nodo.Valor2); // Agrega el segundo valor
-                    }
+                    ListaDatos.Add(nodo.Valor2);
                 }
 
-                // Recorre el nodo central
-                ObtenerValoresEnListaRecursivo(nodo.NodoCen, listaValores);
-
-                // Recorre el nodo derecho
-                ObtenerValoresEnListaRecursivo(nodo.NodoDer, listaValores);
+                // Recorremos los nodos hijos en orden
+                ObtenerValoresEnLista(nodo.NodoIzq);
+                ObtenerValoresEnLista(nodo.NodoCen);
+                ObtenerValoresEnLista(nodo.NodoDer);
             }
         }
     }

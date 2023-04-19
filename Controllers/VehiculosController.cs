@@ -29,7 +29,7 @@ namespace LAB04_ED1.Controllers
             if (Singleton.Instance.flag == 0)
             {
                 Singleton.Instance.flag = 0;
-                List<T> listaValores = Singleton.Instance.Arbol_2_3.ObtenerValoresEnLista(); // Llama al método ObtenerValoresEnLista() en tu instancia de árbol 2-3
+                List<Vehiculo> listaValores = Singleton.Instance.Arbol_2_3.ObtenerValoresEnLista();
                 return View(listaValores);
             }
             else
@@ -57,24 +57,6 @@ namespace LAB04_ED1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
         {
-            //try
-            //{
-            //    var NuevoAuto = new Models.Vehiculo
-            //    {
-            //        Placa = collection["Placa"],
-            //        Propietario = collection["Propietario"],
-            //        Color = collection["Color"],
-            //        Latitud = Convert.ToInt32(collection["Latitud"]),
-            //        Longitud = Convert.ToInt32(collection["Longitud"])
-            //    };
-            //    Singleton.Instance.Arbol_2_3.Insertar(NuevoAuto);
-            //    Singleton.Instance.flag = 0;
-            //    return RedirectToAction(nameof(Index));
-            //}
-            //catch
-            //{
-            //    return View();
-            //}
             try
             {
                 Vehiculo NuevoVehiculo = new Vehiculo()
@@ -138,12 +120,11 @@ namespace LAB04_ED1.Controllers
                         while (!csvFile.EndOfData)
                         {
                             string[] fields = csvFile.ReadFields();
-                            ID = Convert.ToString(fields[0]);
-                            Placa = Convert.ToString(fields[1]);
-                            Propietario = Convert.ToString(fields[2]);
-                            Color = Convert.ToString(fields[3]);
-                            Longitud = Convert.ToString(fields[4]);
-                            Latitud = Convert.ToString(fields[5]);
+                            Placa = Convert.ToString(fields[0]);
+                            Propietario = Convert.ToString(fields[1]);
+                            Color = Convert.ToString(fields[2]);
+                            Longitud = Convert.ToString(fields[3]);
+                            Latitud = Convert.ToString(fields[4]);
                             Vehiculo nuevoVehiculo = new Vehiculo
                             {
                                 Placa = Placa,
@@ -159,8 +140,9 @@ namespace LAB04_ED1.Controllers
                             clavePosicion posicionAInsertar = Vehiculo.obtenerPos;
                             Singleton.Instance.Arbol_2_3.Insertar(nuevoVehiculo, posicionAInsertar);
                             Singleton.Instance.flag = 0;
-                            return RedirectToAction(nameof(Index));
+                            
                         }
+                        return RedirectToAction(nameof(Index));
                     }
                 }
                 return RedirectToAction(nameof(Index));
