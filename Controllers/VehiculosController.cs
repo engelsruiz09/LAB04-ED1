@@ -5,7 +5,9 @@ using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
-
+using TDA;
+using System.Collections.Generic;
+using System.Linq;
 using System.IO;
 using LAB04_ED1.Models;
 
@@ -18,13 +20,17 @@ namespace LAB04_ED1.Controllers
         {
             Environment = _environment;
         }
+        public delegate string claveCoordenadas(Vehiculo vehiculo);
+        public delegate int clavePosicion(Vehiculo vehiculo, Nodo23<Vehiculo> nodo1);
+        public delegate Vehiculo ClaveEdicion(Vehiculo vehiculo1, Vehiculo vehiculo2);
         // GET: VehiculosController
         public ActionResult Index()
         {
             if (Singleton.Instance.flag == 0)
             {
                 Singleton.Instance.flag = 0;
-                return View(Singleton.Instance.lista_arbol);
+                List<T> listaValores = Singleton.Instance.Arbol_2_3.ObtenerValoresEnLista(); // Llama al método ObtenerValoresEnLista() en tu instancia de árbol 2-3
+                return View(listaValores);
             }
             else
             {
@@ -45,30 +51,55 @@ namespace LAB04_ED1.Controllers
             return View();
         }
 
+
         // POST: VehiculosController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
         {
+            //try
+            //{
+            //    var NuevoAuto = new Models.Vehiculo
+            //    {
+            //        Placa = collection["Placa"],
+            //        Propietario = collection["Propietario"],
+            //        Color = collection["Color"],
+            //        Latitud = Convert.ToInt32(collection["Latitud"]),
+            //        Longitud = Convert.ToInt32(collection["Longitud"])
+            //    };
+            //    Singleton.Instance.Arbol_2_3.Insertar(NuevoAuto);
+            //    Singleton.Instance.flag = 0;
+            //    return RedirectToAction(nameof(Index));
+            //}
+            //catch
+            //{
+            //    return View();
+            //}
             try
             {
-                var NuevoAuto = new Models.Vehiculos
+                Vehiculo NuevoVehiculo = new Vehiculo()
                 {
-                    ID = collection["ID"],
                     Placa = collection["Placa"],
-                    Propietario = collection["Propietario"],
                     Color = collection["Color"],
-                    Latitud = collection["Latitud"],
-                    Longitud = collection["Longitud"]
+                    Propietario = collection["Propietario"],
+                    Longitud = Convert.ToInt32(collection["Longitud"]),
+                    Latitud = Convert.ToInt32(collection["Latitud"]),
                 };
-                //Singleton.Instance.Arbol_2_3.Insertar(NuevoAuto);
+                Console.WriteLine("depurar");
+                claveCoordenadas claveVehiculo = Vehiculo.ObtenerCoordenadas;
+                NuevoVehiculo.Coordenadas = claveVehiculo(NuevoVehiculo);
+                clavePosicion posicionAInsertar = Vehiculo.obtenerPos;
+                Singleton.Instance.Arbol_2_3.Insertar(NuevoVehiculo, posicionAInsertar);
                 Singleton.Instance.flag = 0;
                 return RedirectToAction(nameof(Index));
+
             }
             catch
             {
-                return View();
+                return RedirectToAction(nameof(Index));
             }
+
+
         }
         public ActionResult CargarArchivo()
         {
@@ -113,20 +144,22 @@ namespace LAB04_ED1.Controllers
                             Color = Convert.ToString(fields[3]);
                             Longitud = Convert.ToString(fields[4]);
                             Latitud = Convert.ToString(fields[5]);
-                            Vehiculos nuevoVehiculo = new Vehiculos
+                            Vehiculo nuevoVehiculo = new Vehiculo
                             {
-                                ID = ID,
                                 Placa = Placa,
                                 Propietario = Propietario,
                                 Color = Color,
-                                Longitud = Longitud,
-                                Latitud = Latitud,
+                                Longitud = Convert.ToInt32(Longitud),
+                                Latitud = Convert.ToInt32(Latitud),
 
                             };
                             Singleton.Instance.flag = 0;
-                            Singleton.Instance.lista_arbol.Add(nuevoVehiculo);
-                            //Singleton.Instance.Arbol_2_3
-                            //agregar metodo cuando este arbol binario
+                            claveCoordenadas claveVehiculo = Vehiculo.ObtenerCoordenadas;
+                            nuevoVehiculo.Coordenadas = claveVehiculo(nuevoVehiculo);
+                            clavePosicion posicionAInsertar = Vehiculo.obtenerPos;
+                            Singleton.Instance.Arbol_2_3.Insertar(nuevoVehiculo, posicionAInsertar);
+                            Singleton.Instance.flag = 0;
+                            return RedirectToAction(nameof(Index));
                         }
                     }
                 }

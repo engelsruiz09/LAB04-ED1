@@ -294,6 +294,37 @@ namespace TDA
                 }
             }
         }
+        public List<T> ObtenerValoresEnLista()
+        {
+            List<T> listaValores = new List<T>(); // Lista para almacenar los valores del árbol
+            ObtenerValoresEnListaRecursivo(raiz, listaValores); // Llamada al método recursivo para obtener los valores
+            return listaValores; // Devuelve la lista de valores
+        }
+
+        private void ObtenerValoresEnListaRecursivo(Nodo23<T> nodo, List<T> listaValores)
+        {
+            if (nodo != null)
+            {
+                // Recorre el nodo izquierdo
+                ObtenerValoresEnListaRecursivo(nodo.NodoIzq, listaValores);
+
+                // Agrega el valor del nodo a la lista
+                if (nodo.ocupado) // Si el nodo está ocupado (tiene un valor)
+                {
+                    listaValores.Add(nodo.Valor1); // Agrega el primer valor
+                    if (nodo.Valor2 != null) // Si hay un segundo valor en el nodo
+                    {
+                        listaValores.Add(nodo.Valor2); // Agrega el segundo valor
+                    }
+                }
+
+                // Recorre el nodo central
+                ObtenerValoresEnListaRecursivo(nodo.NodoCen, listaValores);
+
+                // Recorre el nodo derecho
+                ObtenerValoresEnListaRecursivo(nodo.NodoDer, listaValores);
+            }
+        }
     }
 
 
