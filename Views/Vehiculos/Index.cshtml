@@ -7,8 +7,24 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Nuevo Vehiculo</a>
 </p>
+
+<h3 class=" text-start"> Busqueda</h3>
+<div class="form-inline mb-3 align-content-around">
+    <form asp-action="BuscarPlaca" method="post" class="mx-2">
+        <input name="BuscPlaca" type= "search" class="form-control" placeholder="Placa" />
+        <button type="submit" class="btn btn-outline-success">Buscar</button>
+    </form>
+    <form asp-action="BuscarColor" method="post" class="mx-2">
+        <input name="BuscColor" type="search" class="form-control" placeholder="Color" />
+        <button type="submit" class="btn btn-outline-success">Buscar</button>
+    </form>
+    <form asp-action="BuscarPropietario" method="post" class="mx-2">
+        <input name="BuscPropietario" type="search" class="form-control" placeholder="Propietario" />
+        <button type="submit" class="btn btn-outline-success">Buscar</button>
+    </form>
+</div>
 
 
 <table class="table">
@@ -54,9 +70,9 @@
                         @Html.DisplayFor(modelItem => item.Latitud)
                     </td>
                     <td>
-@*                        @Html.ActionLink("Edit", "Edit", new {  id=item.ID  }) |
-                        @Html.ActionLink("Details", "Details", new {  id=item.ID  }) |
-                        @Html.ActionLink("Delete", "Delete", new {  id=item.ID  })*@
+                        @* @Html.ActionLink("Edit", "Edit", new {  id=item.Placa  }) |*@
+                        @* @Html.ActionLink("Details", "Details", new {  id=item.ID  }) |*@
+                        @* @Html.ActionLink("Delete", "Delete", new {  id=item.Placa  })*@
                     </td>
                 </tr>
             }

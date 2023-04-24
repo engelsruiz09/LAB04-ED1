@@ -196,5 +196,49 @@ namespace LAB04_ED1.Controllers
                 return View();
             }
         }
+        public ActionResult BuscarPlaca(string BuscPlaca)
+        {
+            try
+            {
+                Singleton.Instance.flag = 1;
+                Singleton.Instance.lista_arbol = Singleton.Instance.Arbol_2_3.Obtener(x=>x.Placa==BuscPlaca);
+                 return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                Singleton.Instance.flag = 0;
+                ViewData["Message"] = "No encontrado";
+                return RedirectToAction(nameof(Index));
+            }
+        }
+        public ActionResult BuscarColor(string BuscColor)
+        {
+            try
+            {
+                Singleton.Instance.flag = 1;
+                Singleton.Instance.lista_arbol = Singleton.Instance.Arbol_2_3.Obtener(x => x.Color == BuscColor);
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                Singleton.Instance.flag = 0;
+                ViewData["Message"] = "No encontrado";
+                return RedirectToAction(nameof(Index));
+            }
+        }
+        public ActionResult BuscarPropietario(string BuscPropietario)
+        {
+            try
+            {
+                Singleton.Instance.flag = 1;
+                Singleton.Instance.lista_arbol = Singleton.Instance.Arbol_2_3.Obtener(x => x.Propietario == BuscPropietario);
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                Singleton.Instance.flag = 0;
+                ViewData["Message"] = "No encontrado";
+                return RedirectToAction(nameof(Index));            }
+        }
     }
 }

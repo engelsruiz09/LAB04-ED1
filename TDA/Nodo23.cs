@@ -16,7 +16,7 @@
             NodoCen = null;
             NodoDer = null;
             ocupado = false;
-        }
+        }   
         //Constructor para dar un valor al valor menor en el nodo
         public Nodo23(T ValorM)
         {

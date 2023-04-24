@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using TDA;
 
+
 namespace LAB04_ED1.Models
 {
     public class Vehiculo

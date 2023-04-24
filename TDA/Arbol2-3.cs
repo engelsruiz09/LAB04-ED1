@@ -301,6 +301,20 @@ namespace TDA
             return ListaDatos;
         }
 
+        public List<T> Obtener(Func<T, bool> Predicate)
+        {
+            List<T> prov = new List<T>();
+            ObtenerValoresEnLista();
+            for(int i=0;i< ListaDatos.Count(); i++)
+            {
+                if (Predicate(ListaDatos[i]))
+                {
+                    prov.Add(ListaDatos[i]);
+                }
+            }
+            return prov;
+        }
+
         private void ObtenerValoresEnLista(Nodo23<T> nodo)
         {
             if (nodo != null)
