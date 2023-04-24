@@ -211,12 +211,12 @@ namespace TDA
             Inorden(raiz);
         }
 
-        public void busqueda(Nodo23<T> buscado, Delegate delegado1)
+        public List<T> busqueda(Nodo23<T> buscado, Delegate delegado1)
         {
 
             Busquedas.Clear();
             busqueda2(raiz, delegado1, buscado);
-
+            return Busquedas;
         }
 
         public void busqueda2(Nodo23<T> aux, Delegate delegado1, Nodo23<T> buscado)
@@ -319,8 +319,10 @@ namespace TDA
         {
             if (nodo != null)
             {
+                if(nodo.Valor1 != null){
+                    ListaDatos.Add(nodo.Valor1);
+                }
                 // Agregamos los valores del nodo a la lista
-                ListaDatos.Add(nodo.Valor1);
                 if (nodo.Valor2 != null)
                 {
                     ListaDatos.Add(nodo.Valor2);

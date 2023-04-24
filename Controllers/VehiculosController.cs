@@ -32,6 +32,11 @@ namespace LAB04_ED1.Controllers
                 List<Vehiculo> listaValores = Singleton.Instance.Arbol_2_3.ObtenerValoresEnLista();
                 return View(listaValores);
             }
+            else if (Singleton.Instance.flag == 1)
+            {
+                Singleton.Instance.flag = 0;
+                return View(Singleton.Instance.lista_busquedas);
+            }
             else
             {
                 return View();
@@ -121,15 +126,15 @@ namespace LAB04_ED1.Controllers
                         {
                             string[] fields = csvFile.ReadFields();
                             Placa = Convert.ToString(fields[0]);
-                            Propietario = Convert.ToString(fields[1]);
-                            Color = Convert.ToString(fields[2]);
+                            Color = Convert.ToString(fields[1]);
+                            Propietario = Convert.ToString(fields[2]);
                             Longitud = Convert.ToString(fields[3]);
                             Latitud = Convert.ToString(fields[4]);
                             Vehiculo nuevoVehiculo = new Vehiculo
                             {
                                 Placa = Placa,
-                                Propietario = Propietario,
                                 Color = Color,
+                                Propietario = Propietario,
                                 Longitud = Convert.ToInt32(Longitud),
                                 Latitud = Convert.ToInt32(Latitud),
 
@@ -196,49 +201,80 @@ namespace LAB04_ED1.Controllers
                 return View();
             }
         }
-        public ActionResult BuscarPlaca(string BuscPlaca)
+        public ActionResult BuscarPropietario(string Propietario)
         {
             try
             {
-                Singleton.Instance.flag = 1;
-                Singleton.Instance.lista_arbol = Singleton.Instance.Arbol_2_3.Obtener(x=>x.Placa==BuscPlaca);
-                 return RedirectToAction(nameof(Index));
+                if (Propietario != null)
+                {
+                    Vehiculo nuevoVehiculo = new Vehiculo();
+                    nuevoVehiculo.Propietario = Propietario;
+                    Nodo23<Vehiculo> nuevonodo = new Nodo23<Vehiculo>();
+                    nuevonodo.Valor1 = nuevoVehiculo;
+                    Singleton.Instance.flag = 1;
+                    List<Vehiculo> busquedas = Singleton.Instance.Arbol_2_3.busqueda(nuevonodo, Vehiculo.compararPropietario);
+                    foreach (var valor in busquedas)
+                    {
+                        Singleton.Instance.lista_busquedas.Add(valor);
+                    }
+                    
+                }
+                return RedirectToAction(nameof(Index));
             }
             catch
             {
-                Singleton.Instance.flag = 0;
-                ViewData["Message"] = "No encontrado";
                 return RedirectToAction(nameof(Index));
             }
         }
-        public ActionResult BuscarColor(string BuscColor)
+        public ActionResult BuscarColor(string Color)
         {
             try
             {
-                Singleton.Instance.flag = 1;
-                Singleton.Instance.lista_arbol = Singleton.Instance.Arbol_2_3.Obtener(x => x.Color == BuscColor);
+                if (Color != null)
+                {
+                    Vehiculo nuevoVehiculo = new Vehiculo();
+                    nuevoVehiculo.Color = Color;
+                    Nodo23<Vehiculo> nuevonodo = new Nodo23<Vehiculo>();
+                    nuevonodo.Valor1 = nuevoVehiculo;
+                    Singleton.Instance.flag = 1;
+                    List<Vehiculo> busquedas = Singleton.Instance.Arbol_2_3.busqueda(nuevonodo, Vehiculo.CompararColor);
+                    foreach (var valor in busquedas)
+                    {
+                        Singleton.Instance.lista_busquedas.Add(valor);
+                    }
+
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                Singleton.Instance.flag = 0;
-                ViewData["Message"] = "No encontrado";
                 return RedirectToAction(nameof(Index));
             }
         }
-        public ActionResult BuscarPropietario(string BuscPropietario)
+        public ActionResult BuscarPlaca(string Placa)
         {
             try
             {
-                Singleton.Instance.flag = 1;
-                Singleton.Instance.lista_arbol = Singleton.Instance.Arbol_2_3.Obtener(x => x.Propietario == BuscPropietario);
+                if (Placa != null)
+                {
+                    Vehiculo nuevoVehiculo = new Vehiculo();
+                    nuevoVehiculo.Placa = Placa;
+                    Nodo23<Vehiculo> nuevonodo = new Nodo23<Vehiculo>();
+                    nuevonodo.Valor1 = nuevoVehiculo;
+                    Singleton.Instance.flag = 1;
+                    List<Vehiculo> busquedas = Singleton.Instance.Arbol_2_3.busqueda(nuevonodo, Vehiculo.compararPlaca);
+                    foreach (var valor in busquedas)
+                    {
+                        Singleton.Instance.lista_busquedas.Add(valor);
+                    }
+
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                Singleton.Instance.flag = 0;
-                ViewData["Message"] = "No encontrado";
-                return RedirectToAction(nameof(Index));            }
+                return RedirectToAction(nameof(Index));
+            }
         }
     }
 }
