@@ -3,11 +3,19 @@
 @{
     ViewData["Title"] = "Index";
 }
-
+@if (!string.IsNullOrEmpty(ViewBag.Aviso))
+{
+    <div class="alert alert-danger">
+        @ViewBag.Aviso
+    </div>
+}
 <h1 class="text-center display-3">Registro de Vehiculos Actuales</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-outline-info">Nuevo Vehiculo</a>
+    <a asp-action="Create" class="btn btn-outline-info mx-5">Nuevo Vehiculo</a>
+</p>
+<p>
+    <a asp-action="Devolucion" class="btn btn-outline-info mx-5">Limpiar</a>
 </p>
 
 <h3 class=" text-start display-6"> Busqueda</h3>
