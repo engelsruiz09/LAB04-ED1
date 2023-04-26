@@ -40,6 +40,13 @@ namespace LAB04_ED1.Controllers
                 Singleton.Instance.flag = 0;
                 return View(Singleton.Instance.lista_busquedas);
             }
+            else if (Singleton.Instance.flag == 3)
+            {
+                
+                string aviso = "No se encontro ningun dato";
+                ViewBag.Aviso= aviso;
+                return View();
+            }
             else
             {
                 Singleton.Instance.flag = 0;
@@ -116,6 +123,21 @@ namespace LAB04_ED1.Controllers
 
 
         }
+
+        public ActionResult Devolucion()
+        {
+            try
+            {
+                Singleton.Instance.flag = 0;
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+
         public ActionResult CargarArchivo()
         {
             return View();
@@ -226,21 +248,21 @@ namespace LAB04_ED1.Controllers
         }
 
         // GET: VehiculosController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            Singleton.Instance.flag = 0;
-            var VVehiculos = Singleton.Instance.Arbol_2_3.ObtenerValoresEnLista().FirstOrDefault(a => a.ID == id);
-            return View(VVehiculos);
-        }
+        //public ActionResult Delete(int id)
+        //{
+        //    Singleton.Instance.flag = 0;
+        //    var VVehiculos = Singleton.Instance.Arbol_2_3.ObtenerValoresEnLista().FirstOrDefault(a => a.ID == id);
+        //    return View(VVehiculos);
+        //}
 
         public ActionResult Delete(string id)
         {
             try
             {
 
-              //  Singleton.Instance.flag = 0;
-               // var VVehiculos = Singleton.Instance.Arbol_2_3.ObtenerValoresEnLista().FirstOrDefault(a => a.ID == id);
-               // Singleton.Instance.Arbol_2_3.Remove(VVehiculos);
+                //  Singleton.Instance.flag = 0;
+                // var VVehiculos = Singleton.Instance.Arbol_2_3.ObtenerValoresEnLista().FirstOrDefault(a => a.ID == id);
+                // Singleton.Instance.Arbol_2_3.Remove(VVehiculos);
 
                 if (id != null)
                 {
@@ -271,6 +293,10 @@ namespace LAB04_ED1.Controllers
         {
             try
             {
+                //Singleton.Instance.flag = 0;
+                //var VVehiculos = Singleton.Instance.Arbol_2_3.ObtenerValoresEnLista().FirstOrDefault(a => a.ID == id);
+                //Singleton.Instance.Arbol_2_3.Remove(VVehiculos);
+
                 if (id != null)
                 {
                     Vehiculo nuevoVehiculo = new Vehiculo();
@@ -310,11 +336,16 @@ namespace LAB04_ED1.Controllers
                     nuevonodo.Valor1 = nuevoVehiculo;
                     Singleton.Instance.flag = 1;
                     List<Vehiculo> busquedas = Singleton.Instance.Arbol_2_3.busqueda(nuevonodo, Vehiculo.compararPropietario);
+                    Singleton.Instance.lista_busquedas.Clear();
                     foreach (var valor in busquedas)
                     {
                         Singleton.Instance.lista_busquedas.Add(valor);
                     }
-                    
+                    if (Singleton.Instance.lista_busquedas.Count ==0)
+                    {
+                        Singleton.Instance.flag = 3;
+                        return RedirectToAction(nameof(Index));
+                    }
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -335,9 +366,15 @@ namespace LAB04_ED1.Controllers
                     nuevonodo.Valor1 = nuevoVehiculo;
                     Singleton.Instance.flag = 1;
                     List<Vehiculo> busquedas = Singleton.Instance.Arbol_2_3.busqueda(nuevonodo, Vehiculo.CompararColor);
+                    Singleton.Instance.lista_busquedas.Clear();
                     foreach (var valor in busquedas)
                     {
                         Singleton.Instance.lista_busquedas.Add(valor);
+                    }
+                    if (Singleton.Instance.lista_busquedas.Count == 0)
+                    {
+                        Singleton.Instance.flag = 3;
+                        return RedirectToAction(nameof(Index));
                     }
 
                 }
@@ -360,9 +397,15 @@ namespace LAB04_ED1.Controllers
                     nuevonodo.Valor1 = nuevoVehiculo;
                     Singleton.Instance.flag = 1;
                     List<Vehiculo> busquedas = Singleton.Instance.Arbol_2_3.busqueda(nuevonodo, Vehiculo.compararPlaca);
+                    Singleton.Instance.lista_busquedas.Clear();
                     foreach (var valor in busquedas)
                     {
                         Singleton.Instance.lista_busquedas.Add(valor);
+                    }
+                    if (Singleton.Instance.lista_busquedas.Count == 0)
+                    {
+                        Singleton.Instance.flag = 3;
+                        return RedirectToAction(nameof(Index));
                     }
 
                 }

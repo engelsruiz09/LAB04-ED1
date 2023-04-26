@@ -547,14 +547,12 @@ namespace TDA
                 }
             }
         }
-    }
-/*
         public List<T> Eliminacion(T Valor)
         {
-            eliminacionPorValor(raiz, Valor); 
+            eliminacionPorValor(raiz, Valor);
             return ListaDatos;
         }
-        private void eliminacionPorValor(Nodo23<T> nodo,T Valor)
+        private void eliminacionPorValor(Nodo23<T> nodo, T Valor)
         {
             if (nodo != null)
             {
@@ -573,9 +571,12 @@ namespace TDA
                 // Recorremos los nodos hijos en orden
                 eliminacionPorValor(nodo.NodoIzq, Valor);
                 eliminacionPorValor(nodo.NodoCen, Valor);
-              eliminacionPorValor(nodo.NodoDer, Valor);
-          }
+                eliminacionPorValor(nodo.NodoDer, Valor);
+            }
 
-       }
-    }*/
-}
+        }
+    }
+
+
+    }
+
