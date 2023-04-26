@@ -71,28 +71,30 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Placa)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Propietario)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Color)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Longitud)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Latitud)
-                    </td>
-                    <td>
-                        @* @Html.ActionLink("Edit", "Edit", new {  id=item.Placa  }) |*@
-                        @* @Html.ActionLink("Details", "Details", new {  id=item.ID  }) |*@
-                        @* @Html.ActionLink("Delete", "Delete", new {  id=item.Placa  })*@
-                    </td>
-                </tr>
+                if(item != null)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Placa)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Propietario)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Color)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Longitud)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Latitud)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new {  id=item.Placa  }) |
+                            @Html.ActionLink("Delete", "Delete", new {  id=item.ID  })
+                        </td>
+                    </tr>
+                }
             }
         </tbody>
     }

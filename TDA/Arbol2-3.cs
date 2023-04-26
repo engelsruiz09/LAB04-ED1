@@ -1,13 +1,16 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.FileIO;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace TDA
 {
-    public class Arbol2_3<T>
+    public class Arbol2_3<T> where T : IComparable<T>
     {
         Nodo23<T> raiz;
         Nodo23<T> Aux;
@@ -305,7 +308,7 @@ namespace TDA
         {
             List<T> prov = new List<T>();
             ObtenerValoresEnLista();
-            for(int i=0;i< ListaDatos.Count(); i++)
+            for (int i = 0; i < ListaDatos.Count(); i++)
             {
                 if (Predicate(ListaDatos[i]))
                 {
@@ -319,7 +322,8 @@ namespace TDA
         {
             if (nodo != null)
             {
-                if(nodo.Valor1 != null){
+                if (nodo.Valor1 != null)
+                {
                     ListaDatos.Add(nodo.Valor1);
                 }
                 // Agregamos los valores del nodo a la lista
@@ -334,8 +338,202 @@ namespace TDA
                 ObtenerValoresEnLista(nodo.NodoDer);
             }
         }
+        public T Remove(T valor)
+        {
+            Nodo23<T> busc = new Nodo23<T>();
+            busc = Get(raiz, valor);
+            if (valor != null)
+            {
+                Delete(busc, valor);
+            }
+            return valor;
+        }
+        protected Nodo23<T> Get(Nodo23<T> nodo, T value)
+        {
+            if (raiz == null)
+            {
+                return default;
+            }
+            if (nodo.Valor1 != null && value.CompareTo(nodo.Valor1) == 0)
+            {
+                return nodo;
+            }
+            if (nodo.Valor2 != null && value.CompareTo(nodo.Valor2) == 0)
+            {
+                return nodo;
+            }
+
+            if (value.CompareTo(nodo.Valor1) < 0 && nodo.NodoIzq != null)
+            {
+                return Get(nodo.NodoIzq, value);
+            }
+            else if (value.CompareTo(nodo.Valor2) < 0 && nodo.Valor2 != null)
+            {
+                return Get(nodo.NodoCen, value);
+            }
+            else if (nodo.NodoDer != null)
+            {
+                return Get(nodo.NodoDer, value);
+            }
+            else if (nodo.NodoIzq != null)
+            {
+                return Get(nodo.NodoIzq, value);
+            }
+            else if (nodo.NodoCen != null)
+            {
+                return Get(nodo.NodoCen, value);
+            }
+            else
+            {
+                return nodo;
+            }
+
+        }
+        void Delete(Nodo23<T> nodo, T value)
+        {
+            if (nodo.NodoDer == null && nodo.NodoCen == null && nodo.NodoIzq == null) //Caso 1: Eliminación nodo sin hijos
+            {
+                if (nodo.Valor2 != null || nodo.Valor1 != null) //Caso -> hay 2 elementos en el nodo
+                {
+                    if ((value.CompareTo(nodo.Valor1) == 0))
+                    {
+                        nodo.Valor1 = default;
+                    }
+                    else if (value.CompareTo(nodo.Valor2) == 0)
+                    {
+                        nodo.Valor2 = default;
+                    }
+                }
+            }
+            else if ((nodo.NodoDer == null && nodo.NodoCen == null && nodo.NodoIzq != null) || (nodo.NodoDer == null && nodo.NodoCen != null && nodo.NodoIzq == null) || (nodo.NodoDer != null && nodo.NodoCen == null && nodo.NodoIzq == null))// Caso 2: Eliminación nodo con 1 hijo
+            {
+                if (nodo.Valor2 != null || nodo.Valor1 != null) //Caso -> hay 2 elementos en el nodo
+                {
+                    if (value.CompareTo(nodo.Valor1) == 0)
+                    {
+
+                        nodo.Valor1 = default;
+                    }
+                    if (value.CompareTo(nodo.Valor2) == 0)
+                    {
+                        nodo.Valor2 = default(T);
+                    }
+                }
+                else if ((nodo.Valor2 != null && nodo.Valor1 == null) && (nodo.NodoDer.Valor1 != null && nodo.NodoDer.Valor2 != null) && (nodo.NodoIzq.Valor1 != null || nodo.NodoIzq.Valor2 != null))//El valor derecho del nodopadre, dos valores en el nodo derecho y uno en el izquiedo
+                {
+                    if (value.CompareTo(nodo.NodoIzq.Valor1) == 0 || value.CompareTo(nodo.NodoIzq.Valor2) == 0)
+                    {
+                        nodo.NodoIzq.Valor1 = default;
+                        nodo.NodoIzq.Valor2 = nodo.Valor2;
+                        nodo.Valor2 = nodo.NodoCen.Valor2;
+                        nodo.NodoCen = null;
+                    }
+                }
+                else if ((nodo.Valor2 == null && nodo.Valor1 != null) && (nodo.NodoCen.Valor1 != null || nodo.NodoCen.Valor2 != null) && (nodo.NodoIzq.Valor1 != null && nodo.NodoIzq.Valor2 != null))//El valor derecho del nodopadre, dos valores en el nodo derecho y uno en el izquiedo
+                {
+                    if (value.CompareTo(nodo.NodoIzq.Valor1) == 0 || value.CompareTo(nodo.NodoIzq.Valor2) == 0)
+                    {
+                        nodo.NodoIzq.Valor1 = default;
+                        nodo.NodoIzq.Valor2 = nodo.Valor2;
+                        nodo.Valor1 = nodo.NodoCen.Valor2;
+                        nodo.NodoCen = null;
+                    }
+                }
+                else if (nodo.Valor1 == null && nodo.Valor2 == null)
+                {
+                    if (nodo.NodoCen.Valor1 == null && nodo.NodoCen.Valor1 == null)
+                    {
+
+                    }
+                    else if ((nodo.NodoCen.Valor1 != null && nodo.NodoCen.Valor1 == null) && (nodo.NodoIzq.Valor2 != null && nodo.NodoCen.Valor1 == null))
+                    {
+                        nodo.Valor1 = nodo.NodoIzq.Valor2;
+                        nodo.Valor2 = nodo.NodoCen.Valor1;
+                    }
+                    else if ((nodo.NodoCen.Valor1 != null && nodo.NodoCen.Valor1 == null) && (nodo.NodoIzq.Valor2 == null && nodo.NodoCen.Valor1 != null))
+                    {
+                        nodo.Valor1 = nodo.NodoIzq.Valor1;
+                        nodo.Valor2 = nodo.NodoCen.Valor1;
+                    }
+                    else if ((nodo.NodoCen.Valor1 == null && nodo.NodoCen.Valor1 != null) && (nodo.NodoIzq.Valor2 != null && nodo.NodoCen.Valor1 == null))
+                    {
+                        nodo.Valor1 = nodo.NodoIzq.Valor2;
+                        nodo.Valor2 = nodo.NodoCen.Valor2;
+                    }
+                    else if ((nodo.NodoCen.Valor1 == null && nodo.NodoCen.Valor1 != null) && (nodo.NodoIzq.Valor2 == null && nodo.NodoCen.Valor1 != null))
+                    {
+                        nodo.Valor1 = nodo.NodoIzq.Valor1;
+                        nodo.Valor2 = nodo.NodoDer.Valor2;
+
+                    }
+
+                }
+
+            }
+            else if ((nodo.NodoDer != null && nodo.NodoCen != null && nodo.NodoIzq != null) || (nodo.NodoDer != null && nodo.NodoCen != null && nodo.NodoIzq == null) || (nodo.NodoDer != null && nodo.NodoCen == null && nodo.NodoIzq != null) || (nodo.NodoDer == null && nodo.NodoCen != null && nodo.NodoIzq != null))// Caso, hay un dos o tres hijos
+            {
+                if (nodo.Valor2 != null || nodo.Valor1 != null) //Caso -> hay 2 elementos en el nodo
+                {
+                    if (value.CompareTo(nodo.Valor1) == 0)
+                    {
+
+                        nodo.Valor1 = default;
+                    }
+                    if (value.CompareTo(nodo.Valor2) == 0)
+                    {
+                        nodo.Valor2 = default(T);
+                    }
+                }
+                else if ((nodo.Valor2 != null && nodo.Valor1 == null) && (nodo.NodoCen.Valor1 != null && nodo.NodoCen.Valor2 != null) && (nodo.NodoIzq.Valor1 != null || nodo.NodoIzq.Valor2 != null))//El valor derecho del nodopadre, dos valores en el nodo derecho y uno en el izquiedo
+                {
+                    if (value.CompareTo(nodo.NodoIzq.Valor1) == 0 || value.CompareTo(nodo.NodoIzq.Valor2) == 0)
+                    {
+                        nodo.NodoIzq.Valor1 = default;
+                        nodo.NodoIzq.Valor2 = nodo.Valor2;
+                        nodo.Valor2 = nodo.NodoCen.Valor2;
+                        nodo.NodoCen = null;
+                    }
+                }
+                else if ((nodo.Valor2 == null && nodo.Valor1 != null) && (nodo.NodoCen.Valor1 != null || nodo.NodoCen.Valor2 != null) && (nodo.NodoIzq.Valor1 != null && nodo.NodoIzq.Valor2 != null))//El valor derecho del nodopadre, dos valores en el nodo derecho y uno en el izquiedo
+                {
+                    if (value.CompareTo(nodo.NodoIzq.Valor1) == 0 || value.CompareTo(nodo.NodoIzq.Valor2) == 0)
+                    {
+                        nodo.NodoIzq.Valor1 = default;
+                        nodo.NodoIzq.Valor2 = nodo.Valor2;
+                        nodo.Valor1 = nodo.NodoCen.Valor2;
+                        nodo.NodoCen = null;
+                    }
+                }
+                else if (nodo.Valor1 == null && nodo.Valor2 == null)
+                {
+                    if (nodo.NodoCen.Valor1 == null && nodo.NodoCen.Valor1 == null)
+                    {
+
+                    }
+                    else if ((nodo.NodoCen.Valor1 != null && nodo.NodoCen.Valor1 == null) && (nodo.NodoIzq.Valor2 != null && nodo.NodoCen.Valor1 == null))
+                    {
+                        nodo.Valor1 = nodo.NodoIzq.Valor2;
+                        nodo.Valor2 = nodo.NodoCen.Valor1;
+                    }
+                    else if ((nodo.NodoCen.Valor1 != null && nodo.NodoCen.Valor1 == null) && (nodo.NodoIzq.Valor2 == null && nodo.NodoCen.Valor1 != null))
+                    {
+                        nodo.Valor1 = nodo.NodoIzq.Valor1;
+                        nodo.Valor2 = nodo.NodoCen.Valor1;
+                    }
+                    else if ((nodo.NodoCen.Valor1 == null && nodo.NodoCen.Valor1 != null) && (nodo.NodoIzq.Valor2 != null && nodo.NodoCen.Valor1 == null))
+                    {
+                        nodo.Valor1 = nodo.NodoIzq.Valor2;
+                        nodo.Valor2 = nodo.NodoCen.Valor2;
+                    }
+                    else if ((nodo.NodoCen.Valor1 == null && nodo.NodoCen.Valor1 != null) && (nodo.NodoIzq.Valor2 == null && nodo.NodoCen.Valor1 != null))
+                    {
+                        nodo.Valor1 = nodo.NodoIzq.Valor1;
+                        nodo.Valor2 = nodo.NodoCen.Valor2;
+
+                    }
+
+                }
+            }
+        }
     }
-
-
-
 }

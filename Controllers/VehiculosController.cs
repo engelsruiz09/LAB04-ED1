@@ -20,6 +20,7 @@ namespace LAB04_ED1.Controllers
         {
             Environment = _environment;
         }
+        public static int i = 0;
         public delegate string claveCoordenadas(Vehiculo vehiculo);
         public delegate int clavePosicion(Vehiculo vehiculo, Nodo23<Vehiculo> nodo1);
         public delegate Vehiculo ClaveEdicion(Vehiculo vehiculo1, Vehiculo vehiculo2);
@@ -71,6 +72,7 @@ namespace LAB04_ED1.Controllers
                     Propietario = collection["Propietario"],
                     Longitud = Convert.ToInt32(collection["Longitud"]),
                     Latitud = Convert.ToInt32(collection["Latitud"]),
+                    ID = i++
                 };
                 Console.WriteLine("depurar");
                 claveCoordenadas claveVehiculo = Vehiculo.ObtenerCoordenadas;
@@ -137,7 +139,7 @@ namespace LAB04_ED1.Controllers
                                 Propietario = Propietario,
                                 Longitud = Convert.ToInt32(Longitud),
                                 Latitud = Convert.ToInt32(Latitud),
-
+                                ID = i++
                             };
                             Singleton.Instance.flag = 0;
                             claveCoordenadas claveVehiculo = Vehiculo.ObtenerCoordenadas;
@@ -184,7 +186,9 @@ namespace LAB04_ED1.Controllers
         // GET: VehiculosController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            Singleton.Instance.flag = 0;
+            var VVehiculos = Singleton.Instance.Arbol_2_3.ObtenerValoresEnLista().FirstOrDefault(a => a.ID == id);
+            return View(VVehiculos);
         }
 
         // POST: VehiculosController/Delete/5
@@ -194,6 +198,9 @@ namespace LAB04_ED1.Controllers
         {
             try
             {
+                Singleton.Instance.flag = 0;
+                var VVehiculos = Singleton.Instance.Arbol_2_3.ObtenerValoresEnLista().FirstOrDefault(a => a.ID == id);
+                Singleton.Instance.Arbol_2_3.Remove(VVehiculos);
                 return RedirectToAction(nameof(Index));
             }
             catch

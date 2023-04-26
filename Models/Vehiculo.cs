@@ -1,11 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 using TDA;
 
 
 namespace LAB04_ED1.Models
 {
-    public class Vehiculo
+    public class Vehiculo: IComparable<Vehiculo>
     {
+        public int? ID { get; set; }
         //1
         [Required(ErrorMessage = "Debes rellenar este campo"), MinLength(6, ErrorMessage = "El valor debe tener 6 digitos"), MaxLength(6, ErrorMessage = "El valor debe tener 6 digitos")]
         public string Placa { get; set; }
@@ -108,6 +110,28 @@ namespace LAB04_ED1.Models
                     return 3;
                 }
             }
+        }
+        public int CompareTo(Vehiculo other)
+        {
+            if(!(other is Vehiculo)) return 3;
+            int result = Placa.CompareTo(other.Placa);
+            if (result == 0)
+            {
+                result = Color.CompareTo(other.Color);
+                if (result == 0)
+                {
+                    result = Propietario.CompareTo(other.Propietario);
+                    if (result == 0)
+                    {
+                        result = Latitud.CompareTo(other.Latitud);
+                        if(result == 0)
+                        {
+                            result = Longitud.CompareTo(other.Longitud);
+                        }
+                    }
+                }
+            }
+            return result;
         }
     }
 }
