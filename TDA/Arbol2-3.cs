@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.Intrinsics.X86;
 using System.Text;
@@ -12,6 +13,7 @@ namespace TDA
         Nodo23<T> raiz;
         Nodo23<T> Aux;
         Queue<T> cola;
+        int contadorPosiciones=0;
         public List<T> ListaDatos;
         public List<T> Busquedas;
         public Arbol2_3()
@@ -80,12 +82,14 @@ namespace TDA
 
         private void Inserción(T Valor, ref Nodo23<T> padre, Delegate delegado1)
         {
+            contadorPosiciones = 0;
             //Primer caso, la raiz del árbol es nula, y el valor se ingresa ahí
             if (padre == null)
             {
                 Nodo23<T> NuevoNodo = new Nodo23<T>();
                 NuevoNodo.Valor2 = Valor;
                 padre = NuevoNodo;
+                contadorPosiciones = 0;
             }
             else
             {
@@ -95,6 +99,7 @@ namespace TDA
                     if (padre.NodoIzq != null)
                     {
                         Inserción(Valor, ref padre.NodoIzq, delegado1);
+                        contadorPosiciones++;
                     }
                     else
                     {
@@ -116,6 +121,7 @@ namespace TDA
                     if (padre.NodoCen != null)
                     {
                         Inserción(Valor, ref padre.NodoCen, delegado1);
+                        contadorPosiciones++;
                     }
                     else
                     {
@@ -135,6 +141,7 @@ namespace TDA
                     if (padre.NodoDer != null)
                     {
                         Inserción(Valor, ref padre, delegado1);
+                        contadorPosiciones++;
                     }
                     else
                     {
@@ -146,6 +153,7 @@ namespace TDA
                     i = Convert.ToInt32(delegado1.DynamicInvoke(Valor, padre));
                     if (padre == raiz)
                     {
+                        
                         if (!padre.ocupado)
                         {
                             if (i == 1)
@@ -209,6 +217,11 @@ namespace TDA
         {
             Inserción(Data, ref raiz, delegado1);
             Inorden(raiz);
+        }
+
+        public int devolverPosicion()
+        {
+            return contadorPosiciones;
         }
 
         public List<T> busqueda(Nodo23<T> buscado, Delegate delegado1)
@@ -296,8 +309,8 @@ namespace TDA
         }
         public List<T> ObtenerValoresEnLista()
         {
-            ListaDatos.Clear(); // Limpiamos la lista antes de obtener los valores
-            ObtenerValoresEnLista(raiz); // Llamamos al método recursivo para obtener los valores
+            ListaDatos.Clear();
+            ObtenerValoresEnLista(raiz);
             return ListaDatos;
         }
 
@@ -334,8 +347,35 @@ namespace TDA
                 ObtenerValoresEnLista(nodo.NodoDer);
             }
         }
+
+        public List<T> Eliminacion(T Valor)
+        {
+            eliminacionPorValor(raiz, Valor); 
+            return ListaDatos;
+        }
+        private void eliminacionPorValor(Nodo23<T> nodo,T Valor)
+        {
+            if (nodo != null)
+            {
+                if (EqualityComparer<T>.Default.Equals(nodo.Valor1, Valor))
+                {
+                    ListaDatos.Remove(nodo.Valor1);
+                    nodo.Valor1 = default(T);
+                }
+                // Agregamos los valores del nodo a la lista
+                if (EqualityComparer<T>.Default.Equals(nodo.Valor2, Valor))
+                {
+                    ListaDatos.Remove(nodo.Valor2);
+                    nodo.Valor2 = default(T);
+
+                }
+                // Recorremos los nodos hijos en orden
+                eliminacionPorValor(nodo.NodoIzq, Valor);
+                eliminacionPorValor(nodo.NodoCen, Valor);
+                eliminacionPorValor(nodo.NodoDer, Valor);
+            }
+
+        }
     }
-
-
 
 }

@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using LAB04_ED1.Models;
+using System.Numerics;
 
 namespace LAB04_ED1.Controllers
 {
@@ -23,9 +24,10 @@ namespace LAB04_ED1.Controllers
         public delegate string claveCoordenadas(Vehiculo vehiculo);
         public delegate int clavePosicion(Vehiculo vehiculo, Nodo23<Vehiculo> nodo1);
         public delegate Vehiculo ClaveEdicion(Vehiculo vehiculo1, Vehiculo vehiculo2);
-        // GET: VehiculosController
+        
         public ActionResult Index()
         {
+
             if (Singleton.Instance.flag == 0)
             {
                 Singleton.Instance.flag = 0;
@@ -39,17 +41,41 @@ namespace LAB04_ED1.Controllers
             }
             else
             {
-                return View();
+                Singleton.Instance.flag = 0;
+                List<Vehiculo> listaValores = Singleton.Instance.Arbol_2_3.ObtenerValoresEnLista();
+                return View(listaValores);
+            }
+            
+        }
+
+        
+        public ActionResult Details(string id)
+        {
+            try
+            {
+                if (id != null)
+                {
+                    Vehiculo nuevoVehiculo = new Vehiculo();
+                    nuevoVehiculo.Placa = id;
+                    Nodo23<Vehiculo> nuevonodo = new Nodo23<Vehiculo>();
+                    nuevonodo.Valor1 = nuevoVehiculo;
+                    Singleton.Instance.flag = 1;
+                    List<Vehiculo> busquedas = Singleton.Instance.Arbol_2_3.busqueda(nuevonodo, Vehiculo.compararPlaca);
+                    foreach (var valor in busquedas)
+                    {
+                        Singleton.Instance.lista_.Valor1=valor;
+                    }
+                    Singleton.Instance.flag = 0;
+                }
+                return View(Singleton.Instance.lista_.Valor1);
+            }
+            catch
+            {
+                return RedirectToAction(nameof(Details));
             }
         }
 
-        // GET: VehiculosController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
 
-        // GET: VehiculosController/Create
         public ActionResult Create()
         {
 
@@ -57,7 +83,7 @@ namespace LAB04_ED1.Controllers
         }
 
 
-        // POST: VehiculosController/Create
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -160,19 +186,35 @@ namespace LAB04_ED1.Controllers
             }
         }
 
-        // GET: VehiculosController/Edit/5
+
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: VehiculosController/Edit/5
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(string id, IFormCollection collection)
         {
             try
             {
+                var viewvehiculos = Singleton.Instance.Arbol_2_3.ObtenerValoresEnLista().FirstOrDefault(a => a.Placa == id);
+                string auxids = Singleton.Instance.Arbol_2_3.ObtenerValoresEnLista().FirstOrDefault(a => a.Placa == id).Placa;
+                //Singleton.Instance.Arbol_2_3.Delete(viewvehiculos);
+                var nuevoVehiculo = new Models.Vehiculo
+                {
+                    Placa = collection["Placa"],
+                    Color = collection["Color"],
+                    Propietario = collection["Propietario"],
+                    Longitud = Convert.ToInt32(collection["Longitud"]),
+                    Latitud = Convert.ToInt32(collection["Latitud"])
+                };
+                claveCoordenadas claveVehiculo = Vehiculo.ObtenerCoordenadas;
+                nuevoVehiculo.Coordenadas = claveVehiculo(nuevoVehiculo);
+                clavePosicion posicionAInsertar = Vehiculo.obtenerPos;
+                Singleton.Instance.Arbol_2_3.Insertar(nuevoVehiculo, posicionAInsertar);
+                Singleton.Instance.flag = 0;
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -181,19 +223,60 @@ namespace LAB04_ED1.Controllers
             }
         }
 
-        // GET: VehiculosController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
 
-        // POST: VehiculosController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(string id)
         {
             try
             {
+                if (id != null)
+                {
+                    Vehiculo nuevoVehiculo = new Vehiculo();
+                    nuevoVehiculo.Placa = id;
+                    Nodo23<Vehiculo> nuevonodo = new Nodo23<Vehiculo>();
+                    nuevonodo.Valor1 = nuevoVehiculo;
+                    Singleton.Instance.flag = 1;
+                    List<Vehiculo> busquedas = Singleton.Instance.Arbol_2_3.busqueda(nuevonodo, Vehiculo.compararPlaca);
+                    foreach (var valor in busquedas)
+                    {
+                        Singleton.Instance.lista_.Valor1 = valor;
+                    }
+                    Singleton.Instance.flag = 0;
+                }
+                return View(Singleton.Instance.lista_.Valor1);
+            }
+            catch
+            {
+                return RedirectToAction(nameof(Details));
+            }
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(string id, IFormCollection collection)
+        {
+            try
+            {
+                if (id != null)
+                {
+                    Vehiculo nuevoVehiculo = new Vehiculo();
+                    nuevoVehiculo.Placa = id;
+                    Nodo23<Vehiculo> nuevonodo = new Nodo23<Vehiculo>();
+                    nuevonodo.Valor1 = nuevoVehiculo;
+                    Singleton.Instance.flag = 1;
+                    List<Vehiculo> busquedas = Singleton.Instance.Arbol_2_3.busqueda(nuevonodo, Vehiculo.compararPlaca);
+                    foreach (var valor in busquedas)
+                    {
+                        //Singleton.Instance.lista_.Valor1 = valor;
+                        //Nodo23<Vehiculo> nodoEliminar = new Nodo23<Vehiculo>()
+                        //{
+                        //    Valor1 = valor
+                        //};
+                        Singleton.Instance.flag = 0;
+                        Singleton.Instance.Arbol_2_3.Eliminacion(Singleton.Instance.lista_.Valor1);
+                    }
+                    Singleton.Instance.flag = 0;
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch
