@@ -42,7 +42,11 @@ namespace LAB04_ED1.Models
 
         public static Comparison<Vehiculo> compararPlaca = delegate (Vehiculo vehiculo1, Vehiculo vehiculo2)
         {
-            return vehiculo1.Placa.CompareTo(vehiculo2.Placa);
+            if (vehiculo1 !=null && vehiculo2 != null)
+            {
+                return vehiculo1.Placa.CompareTo(vehiculo2.Placa);
+            }
+            return 0;
         };
 
         public static Comparison<Vehiculo> compararPropietario = delegate (Vehiculo vehiculo1, Vehiculo vehiculo2)
