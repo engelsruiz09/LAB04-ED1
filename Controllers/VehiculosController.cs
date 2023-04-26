@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using LAB04_ED1.Models;
+using System.Numerics;
 
 namespace LAB04_ED1.Controllers
 {
@@ -26,6 +27,7 @@ namespace LAB04_ED1.Controllers
         
         public ActionResult Index()
         {
+
             if (Singleton.Instance.flag == 0)
             {
                 Singleton.Instance.flag = 0;
@@ -39,14 +41,38 @@ namespace LAB04_ED1.Controllers
             }
             else
             {
-                return View();
+                Singleton.Instance.flag = 0;
+                List<Vehiculo> listaValores = Singleton.Instance.Arbol_2_3.ObtenerValoresEnLista();
+                return View(listaValores);
             }
+            
         }
 
         
-        public ActionResult Details(int id)
+        public ActionResult Details(string id)
         {
-            return View();
+            try
+            {
+                if (id != null)
+                {
+                    Vehiculo nuevoVehiculo = new Vehiculo();
+                    nuevoVehiculo.Placa = id;
+                    Nodo23<Vehiculo> nuevonodo = new Nodo23<Vehiculo>();
+                    nuevonodo.Valor1 = nuevoVehiculo;
+                    Singleton.Instance.flag = 1;
+                    List<Vehiculo> busquedas = Singleton.Instance.Arbol_2_3.busqueda(nuevonodo, Vehiculo.compararPlaca);
+                    foreach (var valor in busquedas)
+                    {
+                        Singleton.Instance.lista_.Valor1=valor;
+                    }
+                    Singleton.Instance.flag = 0;
+                }
+                return View(Singleton.Instance.lista_.Valor1);
+            }
+            catch
+            {
+                return RedirectToAction(nameof(Details));
+            }
         }
 
 
@@ -198,18 +224,59 @@ namespace LAB04_ED1.Controllers
         }
 
 
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
-            return View();
+            try
+            {
+                if (id != null)
+                {
+                    Vehiculo nuevoVehiculo = new Vehiculo();
+                    nuevoVehiculo.Placa = id;
+                    Nodo23<Vehiculo> nuevonodo = new Nodo23<Vehiculo>();
+                    nuevonodo.Valor1 = nuevoVehiculo;
+                    Singleton.Instance.flag = 1;
+                    List<Vehiculo> busquedas = Singleton.Instance.Arbol_2_3.busqueda(nuevonodo, Vehiculo.compararPlaca);
+                    foreach (var valor in busquedas)
+                    {
+                        Singleton.Instance.lista_.Valor1 = valor;
+                    }
+                    Singleton.Instance.flag = 0;
+                }
+                return View(Singleton.Instance.lista_.Valor1);
+            }
+            catch
+            {
+                return RedirectToAction(nameof(Details));
+            }
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(string id, IFormCollection collection)
         {
             try
             {
+                if (id != null)
+                {
+                    Vehiculo nuevoVehiculo = new Vehiculo();
+                    nuevoVehiculo.Placa = id;
+                    Nodo23<Vehiculo> nuevonodo = new Nodo23<Vehiculo>();
+                    nuevonodo.Valor1 = nuevoVehiculo;
+                    Singleton.Instance.flag = 1;
+                    List<Vehiculo> busquedas = Singleton.Instance.Arbol_2_3.busqueda(nuevonodo, Vehiculo.compararPlaca);
+                    foreach (var valor in busquedas)
+                    {
+                        //Singleton.Instance.lista_.Valor1 = valor;
+                        //Nodo23<Vehiculo> nodoEliminar = new Nodo23<Vehiculo>()
+                        //{
+                        //    Valor1 = valor
+                        //};
+                        Singleton.Instance.flag = 0;
+                        Singleton.Instance.Arbol_2_3.Eliminacion(Singleton.Instance.lista_.Valor1);
+                    }
+                    Singleton.Instance.flag = 0;
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch
